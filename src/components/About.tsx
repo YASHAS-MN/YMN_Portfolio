@@ -28,11 +28,11 @@ const IMG_W = 1089;
 const IMG_H = 1445;
 
 const HUD_LABELS = [
-  { id: "name",     text: "NAME: YASHAS M N",          anchor: [635,269] as [number,number], elbow: [758,194] as [number,number], end: [1231,194] as [number,number], side: "right" as const },
-  { id: "degree",   text: "B.E. CSE - CYBER SECURITY", anchor: [604,386] as [number,number], elbow: [758,309] as [number,number], end: [1231,309] as [number,number], side: "right" as const },
-  { id: "cgpa",     text: "CGPA: 8.74 / 10.0",         anchor: [627,498] as [number,number], elbow: [758,429] as [number,number], end: [1231,429] as [number,number], side: "right" as const },
-  { id: "location", text: "BENGALURU, IN",              anchor: [355,972] as [number,number], elbow: [189,1046] as [number,number], end: [-142,1046] as [number,number], side: "left"  as const },
-  { id: "status",   text: "OPEN TO WORK",               anchor: [350,1146] as [number,number], elbow: [189,1221] as [number,number], end: [-142,1221] as [number,number], side: "left"  as const },
+  { id: "name",     text: "NAME: YASHAS M N",          anchor: [635,269] as [number,number], elbow: [700,194] as [number,number], end: [760,194] as [number,number], side: "right" as const },
+  { id: "degree",   text: "B.E. CSE - CYBER SECURITY", anchor: [604,386] as [number,number], elbow: [700,309] as [number,number], end: [760,309] as [number,number], side: "right" as const },
+  { id: "cgpa",     text: "CGPA: 8.74 / 10.0",         anchor: [627,498] as [number,number], elbow: [700,429] as [number,number], end: [760,429] as [number,number], side: "right" as const },
+  { id: "location", text: "BENGALURU, IN",             anchor: [355,972] as [number,number], elbow: [300,1046] as [number,number], end: [260,1046] as [number,number], side: "left"  as const },
+  { id: "status",   text: "OPEN TO WORK",              anchor: [350,1146] as [number,number], elbow: [300,1221] as [number,number], end: [260,1221] as [number,number], side: "left"  as const },
 ];
 
 function segLen(ax: number, ay: number, bx: number, by: number) {
@@ -112,7 +112,7 @@ function PhotoWithHUD({ onHoverChange }: PhotoProps) {
       style={{ position:"relative", zIndex:10, width:"100%", maxWidth:"520px", overflow:"visible", transformOrigin:"center center" }}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
-        animate={{ scale: hovered ? 1.16 : 1 }}
+        animate={{ scale: hovered ? 1.04 : 1 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
         <Image
