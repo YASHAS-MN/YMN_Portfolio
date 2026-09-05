@@ -108,7 +108,8 @@ function PhotoWithHUD({ onHoverChange }: PhotoProps) {
       <div className="glow-blob" style={{ width:"500px", height:"500px", bottom:"-60px", left:"50%", transform:"translateX(-50%)", background:"radial-gradient(circle,rgba(139,92,246,0.22) 0%,transparent 60%)", zIndex:0 }} aria-hidden="true" />
 
       <motion.div
-        style={{ position:"relative", zIndex:10, width:"100%", maxWidth:"520px", overflow:"visible", transformOrigin:"center center" }}
+      className="about-photo-stage"
+      style={{ position:"relative", zIndex:10, width:"100%", maxWidth:"520px", overflow:"visible", transformOrigin:"center center" }}
         onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
         animate={{ scale: hovered ? 1.16 : 1 }}
@@ -123,7 +124,7 @@ function PhotoWithHUD({ onHoverChange }: PhotoProps) {
           priority
         />
         <svg
-          className="absolute inset-0 w-full h-full"
+          className="about-hud absolute inset-0 w-full h-full"
           viewBox={`0 0 ${IMG_W} ${IMG_H}`}
           preserveAspectRatio="xMidYMid meet"
           overflow="visible"
@@ -177,13 +178,13 @@ export default function About() {
         </motion.h2>
 
         {/* -- Photo LEFT (large) | Bio RIGHT -- */}
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(500px,0.9fr)_minmax(520px,0.95fr)] xl:grid-cols-[minmax(600px,0.92fr)_minmax(620px,1fr)] gap-12 xl:gap-20 items-center mb-24" style={{ overflow:"visible" }}>
+        <div className="about-layout grid grid-cols-1 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,0.95fr)] gap-12 xl:gap-20 items-center mb-24" style={{ overflow:"visible" }}>
 
           {/* Photo - LEFT, naturally large */}
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once:true }}
             variants={blurReveal} transition={{ duration:0.6 }}
-            className="flex justify-center lg:justify-end"
+            className="about-photo-column flex justify-center lg:justify-end min-w-0"
             style={{ overflow:"visible", position:"relative", zIndex: photoHovered ? 40 : 1 }}
           >
             <PhotoWithHUD onHoverChange={setPhotoHovered} />
@@ -193,7 +194,7 @@ export default function About() {
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once:true }}
             variants={blurReveal} transition={{ duration:0.5, delay:0.1 }}
-            className="flex flex-col gap-7 max-w-[740px]"
+            className="flex flex-col gap-7 max-w-[740px] min-w-0"
             style={{ transition:"filter 0.3s ease, opacity 0.3s ease", filter: photoHovered ? "blur(4px)" : "none", opacity: photoHovered ? 0.5 : 1 }}
           >
             <p style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>

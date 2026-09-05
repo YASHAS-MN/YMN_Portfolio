@@ -69,6 +69,20 @@ p, li, a, td, th, label, input, textarea, select, button {
   padding-right: clamp(1.25rem, 3vw, 4rem);
 }
 
+.about-photo-stage,
+.about-hud {
+  overflow: visible;
+}
+
+@media (max-width: 1279px) and (min-width: 1024px) {
+  .about-photo-stage { max-width: min(100%, 460px) !important; }
+}
+
+@media (max-width: 1023px) {
+  .about-photo-stage { max-width: min(100%, 460px) !important; }
+  .about-hud { display: none; }
+}
+
 /* ─────────────────────────────────────────────
    Section rhythm
 ───────────────────────────────────────────── */
