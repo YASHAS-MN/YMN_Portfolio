@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────
+   Design Tokens
+───────────────────────────────────────────── */
+@theme inline {
+  --color-bg-base:     #000000;
+  --color-bg-elevated: #050308;
+  --color-bg-card:     #050508;
+  --color-border:      #241633;
+  --color-text-primary:   #ede9f5;
+  --color-text-secondary: #8f83a3;
+  --color-violet:      #8b5cf6;
+  --color-violet-deep: #5b21b6;
+  --color-indigo:      #4f46e5;
+  --color-steel:       #9fb3c8;
+  --color-steel-bright:#d4dfe8;
+
+  --font-display: var(--font-oxanium), "Oxanium", sans-serif;
+  --font-mono:    var(--font-jetbrains-mono), ui-monospace, "Cascadia Code", Menlo, monospace;
+  --font-sans:    var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ─────────────────────────────────────────────
+  Base — keep body copy consistent across sections
+───────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  font-family: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background-color: #000000;
+  color: #ede9f5;
+  font-family: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: 18px;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* Keep controls and prose aligned with the body typeface. */
+p, li, a, td, th, label, input, textarea, select, button {
+  font-family: inherit;
+}
+
+/* ─────────────────────────────────────────────
+   Containers — wider to use horizontal space
+───────────────────────────────────────────── */
+.site-container {
+  width: 100%;
+  max-width: 1680px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 3.5vw, 4rem);
+  padding-right: clamp(1.25rem, 3.5vw, 4rem);
+}
+
+.projects-container {
+  width: 100%;
+  max-width: 1760px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: clamp(1.25rem, 3vw, 4rem);
+  padding-right: clamp(1.25rem, 3vw, 4rem);
+}
+
+/* ─────────────────────────────────────────────
+   Section rhythm
+───────────────────────────────────────────── */
+.section-padding { padding-top: 112px; padding-bottom: 112px; }
+@media (max-width: 768px) { .section-padding { padding-top: 72px; padding-bottom: 72px; } }
+
+/* ─────────────────────────────────────────────
+   Dot grid
+───────────────────────────────────────────── */
+.dot-grid {
+  position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: radial-gradient(circle, rgba(139, 92, 246, 0.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ─────────────────────────────────────────────
+   Glassmorphism card — font explicitly set
+───────────────────────────────────────────── */
+.card {
+  position: relative;
+  background: rgba(5, 5, 8, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 92, 246, 0.15);
+  border-radius: 12px;
+  padding: 32px;
+  font-family: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+.card:hover {
+  border-color: rgba(139, 92, 246, 0.45);
+  box-shadow: 0 0 36px rgba(139, 92, 246, 0.14);
+  transform: translateY(-4px);
+}
+
+/* Corner brackets */
+.card::before, .card::after {
+  content: ""; position: absolute; width: 16px; height: 16px;
+  pointer-events: none; z-index: 1; opacity: 0.5;
+  transition: opacity 300ms ease;
+}
+.card:hover::before, .card:hover::after { opacity: 1; }
+.card::before { top:-1px; left:-1px; border-top:1.5px solid #8b5cf6; border-left:1.5px solid #8b5cf6; border-radius:12px 0 0 0; }
+.card::after  { top:-1px; right:-1px; border-top:1.5px solid #8b5cf6; border-right:1.5px solid #8b5cf6; border-radius:0 12px 0 0; }
+.card-corner { position:absolute; width:16px; height:16px; pointer-events:none; z-index:1; opacity:0.5; transition:opacity 300ms ease; }
+.card:hover .card-corner { opacity: 1; }
+.card-corner-bl { bottom:-1px; left:-1px; border-bottom:1.5px solid #8b5cf6; border-left:1.5px solid #8b5cf6; border-radius:0 0 0 12px; }
+.card-corner-br { bottom:-1px; right:-1px; border-bottom:1.5px solid #8b5cf6; border-right:1.5px solid #8b5cf6; border-radius:0 0 12px 0; }
+
+/* ─────────────────────────────────────────────
+   Typography
+───────────────────────────────────────────── */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: #8b5cf6; margin-bottom: 12px;
+}
+.section-heading {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: clamp(2.6rem, 5vw, 4rem);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #ede9f5;
+  line-height: 1.05;
+  margin-bottom: 56px;
+}
+
+/* ─────────────────────────────────────────────
+   Scan-line sweep (card expand)
+───────────────────────────────────────────── */
+.hero-name-text {
+  --name-hover-x: 50%;
+  --name-hover-y: 50%;
+  position: relative;
+  display: inline-block;
+  color: #ede9f5;
+  white-space: nowrap;
+  transition: filter 160ms ease;
+}
+
+.hero-name-text::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  color: #ede9f5;
+  opacity: 0;
+  text-shadow:
+    0 0 12px rgba(139, 92, 246, 0.55),
+    0 0 24px rgba(237, 233, 245, 0.18);
+  clip-path: circle(0 at var(--name-hover-x) var(--name-hover-y));
+  filter: url("#hero-text-warp");
+  transition: opacity 140ms ease, clip-path 180ms ease;
+}
+
+.hero-name-text.is-hovered::after {
+  opacity: 1;
+  clip-path: circle(105px at var(--name-hover-x) var(--name-hover-y));
+}
+
+.hero-typing-cursor {
+  display: inline-block;
+  width: 0.035em;
+  height: 0.95em;
+  margin-left: 0.04em;
+  vertical-align: -0.07em;
+  background: #8b5cf6;
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.72);
+  transition: opacity 80ms linear;
+}
+
+@keyframes scan-sweep {
+  from { top: -2px; opacity: 0.9; }
+  to   { top: 100%; opacity: 0; }
+}
+.scan-sweep {
+  position: absolute; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent 0%, #8b5cf6 35%, #e9d5ff 50%, #8b5cf6 65%, transparent 100%);
+  animation: scan-sweep 0.38s ease-in forwards;
+  pointer-events: none; z-index: 20;
+}
+
+/* ─────────────────────────────────────────────
+   Buttons
+───────────────────────────────────────────── */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px; border-radius: 8px;
+  font-family: var(--font-mono); font-weight: 600; font-size: 14px;
+  color: #fff; background: linear-gradient(135deg, #8b5cf6, #4f46e5);
+  box-shadow: 0 0 24px rgba(139,92,246,0.45);
+  transition: box-shadow 200ms ease, transform 200ms ease; text-decoration: none;
+}
+.btn-primary:hover { box-shadow: 0 0 44px rgba(139,92,246,0.7); transform: translateY(-1px); }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 28px; border-radius: 8px;
+  font-family: var(--font-mono); font-size: 14px;
+  color: #ede9f5; background: rgba(5,5,8,0.7);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(139,92,246,0.3);
+  transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease; text-decoration: none;
+}
+.btn-secondary:hover { border-color: rgba(139,92,246,0.7); box-shadow: 0 0 22px rgba(139,92,246,0.22); transform: translateY(-1px); }
+
+.about-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 18px;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+}
+
+.about-action-btn-primary {
+  color: #ede9f5;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid rgba(139, 92, 246, 0.45);
+  box-shadow: inset 0 0 18px rgba(139, 92, 246, 0.06);
+}
+
+.about-action-btn-primary:hover {
+  color: #ffffff;
+  background: rgba(139, 92, 246, 0.16);
+  border-color: rgba(139, 92, 246, 0.78);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.18), inset 0 0 20px rgba(139, 92, 246, 0.08);
+  transform: translateY(-1px);
+}
+
+.about-action-btn-secondary {
+  color: #8f83a3;
+  background: rgba(5, 5, 8, 0.75);
+  border: 1px solid rgba(139, 92, 246, 0.24);
+}
+
+.about-action-btn-secondary:hover {
+  color: #8b5cf6;
+  background: rgba(139, 92, 246, 0.08);
+  border-color: rgba(139, 92, 246, 0.58);
+  box-shadow: 0 0 18px rgba(139, 92, 246, 0.12);
+  transform: translateY(-1px);
+}
+
+/* ─────────────────────────────────────────────
+   Glow blob
+───────────────────────────────────────────── */
+.glow-blob { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(100px); }
+
+/* ─────────────────────────────────────────────
+   Scanlines overlay
+───────────────────────────────────────────── */
+.scanlines::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+}
+
+/* ─────────────────────────────────────────────
+   Scrollbar / Focus / Selection
+───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #000; }
+::-webkit-scrollbar-thumb { background: #241633; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #8b5cf6; }
+:focus-visible { outline: 2px solid #8b5cf6; outline-offset: 2px; border-radius: 4px; }
+::selection { background: rgba(139,92,246,0.25); color: #ede9f5; }
+
+/* ─────────────────────────────────────────────
+   Reduced motion
+───────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
+  .card:hover { transform: none; }
+}
