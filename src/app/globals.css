@@ -89,6 +89,26 @@ p, li, a, td, th, label, input, textarea, select, button {
 .section-padding { padding-top: 112px; padding-bottom: 112px; }
 @media (max-width: 768px) { .section-padding { padding-top: 72px; padding-bottom: 72px; } }
 
+/* Keep the large-screen composition comfortable on standard laptop widths. */
+@media (max-width: 1440px) and (min-width: 769px) {
+  body { font-size: 16px; }
+  .site-container,
+  .projects-container {
+    padding-left: clamp(1.5rem, 3vw, 3rem);
+    padding-right: clamp(1.5rem, 3vw, 3rem);
+  }
+  .section-padding { padding-top: 88px; padding-bottom: 88px; }
+  .section-heading {
+    font-size: clamp(2.35rem, 4.5vw, 3.25rem);
+    margin-bottom: 42px;
+  }
+  .card { padding: 24px; }
+}
+
+@media (max-width: 1599px) {
+  .about-hud { display: none; }
+}
+
 /* ─────────────────────────────────────────────
    Dot grid
 ───────────────────────────────────────────── */
