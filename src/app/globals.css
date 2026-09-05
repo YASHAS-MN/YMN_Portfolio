@@ -90,7 +90,7 @@ p, li, a, td, th, label, input, textarea, select, button {
 @media (max-width: 768px) { .section-padding { padding-top: 72px; padding-bottom: 72px; } }
 
 /* Keep the large-screen composition comfortable on standard laptop widths. */
-@media (max-width: 1440px) and (min-width: 769px) {
+@media (max-width: 1680px) and (min-width: 769px) {
   body { font-size: 16px; }
   .site-container,
   .projects-container {
@@ -106,6 +106,7 @@ p, li, a, td, th, label, input, textarea, select, button {
 }
 
 @media (max-width: 1599px) {
+  .about-photo-stage { max-width: min(100%, 460px) !important; }
   .about-hud { display: none; }
 }
 
