@@ -180,7 +180,12 @@ p, li, a, td, th, label, input, textarea, select, button {
 
 .info-modal {
   max-height: calc(100dvh - 48px);
-  overflow-y: auto;
+}
+
+.info-modal--education { overflow-y: auto; }
+
+@media (min-width: 769px) {
+  .contact-container { max-width: 1320px; }
 }
 
 .info-card {

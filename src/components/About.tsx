@@ -418,10 +418,8 @@ export default function About() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: 18, scale: 0.97 }}
                 transition={{ duration: 0.22 }}
-                className="card relative w-full max-w-3xl info-modal"
+                className={`card relative w-full max-w-3xl info-modal ${activeCard === "education" ? "info-modal--education" : ""}`}
               >
-                <span className="card-corner card-corner-bl" aria-hidden="true" />
-                <span className="card-corner card-corner-br" aria-hidden="true" />
                 <div className="flex items-center gap-3 mb-6 border-b border-[rgba(139,92,246,0.15)] pb-4">
                   <h3 className="info-modal-title">{infoCardTitles[activeCard]}</h3>
                   <button onClick={() => setActiveCard(null)} className="ml-auto p-1.5 rounded text-[#8f83a3] hover:text-[#ede9f5] hover:bg-[rgba(139,92,246,0.15)] transition-all" aria-label="Close details">

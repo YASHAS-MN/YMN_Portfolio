@@ -38,7 +38,7 @@ export default function Footer() {
         background: "radial-gradient(ellipse, rgba(139,92,246,0.13) 0%, transparent 60%)",
       }} aria-hidden="true" />
 
-      <div className="site-container relative z-10">
+      <div className="site-container contact-container relative z-10">
         <motion.p
           initial="hidden" whileInView="visible" viewport={{ once: true }}
           variants={blurReveal} transition={{ duration: 0.4 }}
