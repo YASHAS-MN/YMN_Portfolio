@@ -185,7 +185,7 @@ p, li, a, td, th, label, input, textarea, select, button {
 .info-modal--education { overflow-y: auto; }
 
 @media (min-width: 769px) {
-  .contact-container { max-width: 1320px; }
+  .contact-container { max-width: 1200px; }
 }
 
 .info-card {
@@ -401,6 +401,8 @@ p, li, a, td, th, label, input, textarea, select, button {
 
   .card { padding: 24px; }
   .about-copy { font-size: 16px !important; }
+
+  .contact-container h2 { font-size: clamp(1.8rem, 3.2vw, 2.8rem) !important; }
 }
 
 @media (max-width: 768px) {
