@@ -148,7 +148,7 @@ export default function Hero() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 300,
-            fontSize: "clamp(4rem, 12vw, 10rem)",
+            fontSize: "clamp(3.5rem, 9vw, 8rem)",
             letterSpacing: "0.1em",
             textTransform: "uppercase",
             color: "#ede9f5",

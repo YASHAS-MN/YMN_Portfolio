@@ -91,22 +91,22 @@ p, li, a, td, th, label, input, textarea, select, button {
 
 /* Keep the large-screen composition comfortable on standard laptop widths. */
 @media (max-width: 1680px) and (min-width: 769px) {
-  body { font-size: 17px; }
+  body { font-size: 16px; }
   .site-container,
   .projects-container {
     padding-left: clamp(1.5rem, 3vw, 3rem);
     padding-right: clamp(1.5rem, 3vw, 3rem);
   }
-  .section-padding { padding-top: 96px; padding-bottom: 96px; }
+  .section-padding { padding-top: 80px; padding-bottom: 80px; }
   .section-heading {
-    font-size: clamp(2.5rem, 4.7vw, 3.5rem);
-    margin-bottom: 48px;
+    font-size: clamp(2.2rem, 4.2vw, 3rem);
+    margin-bottom: 40px;
   }
-  .card { padding: 28px; }
+  .card { padding: 24px; }
 }
 
 @media (max-width: 1599px) {
-  .about-photo-stage { max-width: min(100%, 480px) !important; }
+  .about-photo-stage { max-width: min(100%, 440px) !important; }
 }
 
 /* ─────────────────────────────────────────────
