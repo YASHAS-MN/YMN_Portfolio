@@ -65,7 +65,9 @@ export default function SkillsSection() {
         window.innerWidth - cardRect.width - margin,
       ));
       const aboveTop = sourceRect.top - cardRect.height - gap;
-      const top = aboveTop >= margin ? aboveTop : sourceRect.bottom + gap;
+      const top = aboveTop >= margin
+        ? aboveTop
+        : Math.min(sourceRect.bottom + gap, window.innerHeight - cardRect.height - margin);
       setCardPosition({ left, top });
     };
     const frame = requestAnimationFrame(positionCard);
