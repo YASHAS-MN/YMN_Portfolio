@@ -58,26 +58,15 @@ export default function SkillsSection() {
       if (!source || !card) return;
       const sourceRect = source.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
-      const gap = 14;
-        const margin = 16;
-        const candidates = [
-          { side: "right", left: sourceRect.right + gap, top: sourceRect.top },
-          { side: "left", left: sourceRect.left - cardRect.width - gap, top: sourceRect.top },
-          { side: "below", left: sourceRect.left, top: sourceRect.bottom + gap },
-          { side: "above", left: sourceRect.left, top: sourceRect.top - cardRect.height - gap },
-        ].map((candidate) => ({
-          ...candidate,
-          left: Math.max(margin, Math.min(candidate.left, window.innerWidth - cardRect.width - margin)),
-          top: Math.max(margin, Math.min(candidate.top, window.innerHeight - cardRect.height - margin)),
-        }));
-        const nearest = candidates.reduce((best, candidate) => {
-          const distance = Math.hypot(
-            candidate.left + cardRect.width / 2 - (sourceRect.left + sourceRect.width / 2),
-            candidate.top + cardRect.height / 2 - (sourceRect.top + sourceRect.height / 2),
-          );
-          return distance < best.distance ? { candidate, distance } : best;
-        }, { candidate: candidates[0], distance: Number.POSITIVE_INFINITY });
-        setCardPosition({ left: nearest.candidate.left, top: nearest.candidate.top });
+      const gap = 10;
+      const margin = 16;
+      const left = Math.max(margin, Math.min(
+        sourceRect.left + sourceRect.width / 2 - cardRect.width / 2,
+        window.innerWidth - cardRect.width - margin,
+      ));
+      const aboveTop = sourceRect.top - cardRect.height - gap;
+      const top = aboveTop >= margin ? aboveTop : sourceRect.bottom + gap;
+      setCardPosition({ left, top });
     };
     const frame = requestAnimationFrame(positionCard);
     window.addEventListener("resize", positionCard);
@@ -97,21 +86,14 @@ export default function SkillsSection() {
       if (!source || !card) return;
       const sourceRect = source.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
-      const cardIsRight = cardRect.left > sourceRect.right;
-        const sourceCenter = {
-          x: sourceRect.left + sourceRect.width / 2,
-          y: sourceRect.top + sourceRect.height / 2,
-        };
-        const cardCenter = {
-          x: cardRect.left + cardRect.width / 2,
-          y: cardRect.top + cardRect.height / 2,
-        };
-        const horizontal = Math.abs(cardCenter.x - sourceCenter.x) >= Math.abs(cardCenter.y - sourceCenter.y);
+      const sourceCenterX = sourceRect.left + sourceRect.width / 2;
+      const cardCenterX = cardRect.left + cardRect.width / 2;
+      const cardIsAbove = cardRect.bottom <= sourceRect.top;
       setConnector({
-          x1: horizontal ? (cardIsRight ? sourceRect.right : sourceRect.left) : sourceCenter.x,
-          y1: horizontal ? sourceCenter.y : (cardCenter.y > sourceCenter.y ? sourceRect.bottom : sourceRect.top),
-          x2: horizontal ? (cardIsRight ? cardRect.left : cardRect.right) : cardCenter.x,
-          y2: horizontal ? cardCenter.y : (cardCenter.y > sourceCenter.y ? cardRect.top : cardRect.bottom),
+        x1: sourceCenterX,
+        y1: cardIsAbove ? sourceRect.top : sourceRect.bottom,
+        x2: cardCenterX,
+        y2: cardIsAbove ? cardRect.bottom : cardRect.top,
       });
     };
     const frame = requestAnimationFrame(updateConnector);
