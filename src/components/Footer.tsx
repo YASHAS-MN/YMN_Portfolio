@@ -74,7 +74,7 @@ export default function Footer() {
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 xl:grid-cols-[minmax(360px,0.42fr)_1fr] gap-10 xl:gap-16 items-start mb-16">
+        <div className="grid grid-cols-1 xl:grid-cols-[minmax(280px,0.34fr)_minmax(0,1fr)] gap-10 xl:gap-14 items-start mb-16">
           <motion.p
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={blurReveal} transition={{ duration: 0.4, delay: 0.12 }}
@@ -87,7 +87,7 @@ export default function Footer() {
           <motion.div
             initial="hidden" whileInView="visible" viewport={{ once: true }}
             variants={blurReveal} transition={{ duration: 0.4, delay: 0.18 }}
-            className="flex flex-col lg:flex-row flex-wrap gap-6 xl:gap-8 items-start lg:items-center xl:justify-end"
+            className="contact-links grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 items-center"
           >
           {/* Email + copy */}
           <div className="flex items-center gap-2">
@@ -109,8 +109,6 @@ export default function Footer() {
             {copied && <span className="font-mono text-xs text-[#8b5cf6]" role="status">copied!</span>}
           </div>
 
-          <span className="hidden sm:block text-[rgba(139,92,246,0.2)]" aria-hidden="true">|</span>
-
           <a
             href="https://linkedin.com/in/yashas-mn"
             target="_blank" rel="noopener noreferrer"
@@ -119,8 +117,6 @@ export default function Footer() {
           >
             <LinkedinIcon size={15} /> linkedin.com/in/yashas-mn
           </a>
-
-          <span className="hidden sm:block text-[rgba(139,92,246,0.2)]" aria-hidden="true">|</span>
 
           <a
             href="https://github.com/YASHAS-MN"
