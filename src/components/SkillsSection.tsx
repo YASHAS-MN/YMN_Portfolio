@@ -1,6 +1,6 @@
 ﻿"use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { skillGroups } from "@/data/skills";
@@ -38,69 +38,43 @@ const blurReveal = {
   visible: { opacity: 1, y: 0,  filter: "blur(0px)" },
 };
 
+function SkillDetailCard({ skill, onClose }: { skill: string; onClose: () => void }) {
+  return (
+    <div className="skill-detail-anchor">
+      <motion.div
+        className="skill-detail-card card"
+        initial={{ opacity: 0, scale: 0.96, y: 8 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 8 }}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${skill} projects`}
+      >
+        <div className="flex items-center gap-3 border-b border-[rgba(139,92,246,0.16)] pb-3 mb-4">
+          <span className="skill-detail-kicker">projects using</span>
+          <h3>{skill}</h3>
+          <button onClick={onClose} className="ml-auto p-1 text-[#8f83a3] hover:text-[#ede9f5]" aria-label="Close projects">
+            <X size={17} aria-hidden="true" />
+          </button>
+        </div>
+        {toolProjects[skill]?.length ? (
+          <ul className="skill-project-list">
+            {toolProjects[skill].map((project) => <li key={project}>{project}</li>)}
+          </ul>
+        ) : (
+          <p className="skill-project-empty">No public project mapping detected.</p>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function SkillsSection() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
-  const [connector, setConnector] = useState({ x1: 0, y1: 0, x2: 0, y2: 0 });
-  const [cardPosition, setCardPosition] = useState<{ left: number; top: number } | null>(null);
-  const skillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const cardRef = useRef<HTMLDivElement | null>(null);
 
   const handleSkillClick = (skill: string) => {
-    setCardPosition(null);
     setActiveSkill(skill);
   };
-
-  useEffect(() => {
-    if (!activeSkill) return;
-    const positionCard = () => {
-      const source = skillRefs.current[activeSkill];
-      const card = cardRef.current;
-      if (!source || !card) return;
-      const sourceRect = source.getBoundingClientRect();
-      const cardRect = card.getBoundingClientRect();
-      const gap = 10;
-      const margin = 16;
-      const left = Math.max(margin, Math.min(
-        sourceRect.left + sourceRect.width / 2 - cardRect.width / 2,
-        window.innerWidth - cardRect.width - margin,
-      ));
-      const aboveTop = sourceRect.top - cardRect.height - gap;
-      const top = aboveTop >= margin
-        ? aboveTop
-        : Math.min(sourceRect.bottom + gap, window.innerHeight - cardRect.height - margin);
-      setCardPosition({ left, top });
-    };
-    const frame = requestAnimationFrame(positionCard);
-    window.addEventListener("resize", positionCard);
-    window.addEventListener("scroll", positionCard, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", positionCard);
-      window.removeEventListener("scroll", positionCard);
-    };
-  }, [activeSkill]);
-
-  useEffect(() => {
-    if (!activeSkill || !cardPosition) return;
-    const updateConnector = () => {
-      const source = skillRefs.current[activeSkill];
-      const card = cardRef.current;
-      if (!source || !card) return;
-      const sourceRect = source.getBoundingClientRect();
-      const cardRect = card.getBoundingClientRect();
-      const sourceCenterX = sourceRect.left + sourceRect.width / 2;
-      const cardCenterX = cardRect.left + cardRect.width / 2;
-      const cardIsAbove = cardRect.bottom <= sourceRect.top;
-      setConnector({
-        x1: sourceCenterX,
-        y1: cardIsAbove ? sourceRect.top : sourceRect.bottom,
-        x2: cardCenterX,
-        y2: cardIsAbove ? cardRect.bottom : cardRect.top,
-      });
-    };
-    const frame = requestAnimationFrame(updateConnector);
-    return () => cancelAnimationFrame(frame);
-  }, [activeSkill, cardPosition]);
 
   useEffect(() => {
     if (!activeSkill) return;
@@ -138,17 +112,18 @@ export default function SkillsSection() {
 
               <div className="flex flex-wrap gap-3" role="list" aria-label={`${group.category} skills`}>
                 {group.skills.map((skill) => (
-                  <button
-                    key={skill}
-                    role="listitem"
-                    ref={(element) => { skillRefs.current[skill] = element; }}
-                    onClick={() => handleSkillClick(skill)}
-                    aria-label={`Show projects using ${skill}`}
-                    style={{ fontFamily:BODY_FONT, fontSize:"16px", color:"#8f83a3" }}
-                    className="skill-chip px-4 py-2.5 rounded-lg border border-[rgba(139,92,246,0.18)] bg-[rgba(5,5,8,0.85)] hover:border-[rgba(139,92,246,0.6)] hover:text-[#8b5cf6] hover:shadow-[0_0_16px_rgba(139,92,246,0.16)] transition-all duration-200 cursor-pointer select-none"
-                  >
-                    {skill}
-                  </button>
+                  <span key={skill} className="skill-chip-anchor">
+                    <button
+                      role="listitem"
+                      onClick={() => handleSkillClick(skill)}
+                      aria-label={`Show projects using ${skill}`}
+                      style={{ fontFamily:BODY_FONT, fontSize:"16px", color:"#8f83a3" }}
+                      className="skill-chip px-4 py-2.5 rounded-lg border border-[rgba(139,92,246,0.18)] bg-[rgba(5,5,8,0.85)] hover:border-[rgba(139,92,246,0.6)] hover:text-[#8b5cf6] hover:shadow-[0_0_16px_rgba(139,92,246,0.16)] transition-all duration-200 cursor-pointer select-none"
+                    >
+                      {skill}
+                    </button>
+                    {activeSkill === skill && <SkillDetailCard skill={skill} onClose={() => setActiveSkill(null)} />}
+                  </span>
                 ))}
               </div>
             </motion.div>
@@ -164,34 +139,6 @@ export default function SkillsSection() {
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
               onClick={() => setActiveSkill(null)} aria-hidden="true"
             />
-            <svg className="fixed inset-0 z-50 pointer-events-none skill-connector" aria-hidden="true">
-              <motion.path
-                d={`M ${connector.x1} ${connector.y1} H ${(connector.x1 + connector.x2) / 2} V ${connector.y2} H ${connector.x2}`}
-                initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 1 }} exit={{ opacity: 0 }}
-              />
-            </svg>
-            <motion.div
-              ref={cardRef}
-              className="skill-detail-card card fixed z-50"
-              style={cardPosition ? { left: cardPosition.left, top: cardPosition.top } : { left: 16, top: 16, visibility: "hidden" }}
-              initial={{ opacity: 0, scale: 0.96, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 8 }}
-              role="dialog" aria-modal="true" aria-label={`${activeSkill} projects`}
-            >
-              <div className="flex items-center gap-3 border-b border-[rgba(139,92,246,0.16)] pb-3 mb-4">
-                <span className="skill-detail-kicker">projects using</span>
-                <h3>{activeSkill}</h3>
-                <button onClick={() => setActiveSkill(null)} className="ml-auto p-1 text-[#8f83a3] hover:text-[#ede9f5]" aria-label="Close projects">
-                  <X size={17} aria-hidden="true" />
-                </button>
-              </div>
-              {toolProjects[activeSkill]?.length ? (
-                <ul className="skill-project-list">
-                  {toolProjects[activeSkill].map((project) => <li key={project}>{project}</li>)}
-                </ul>
-              ) : (
-                <p className="skill-project-empty">No public project mapping detected.</p>
-              )}
-            </motion.div>
           </>
         )}
       </AnimatePresence>
