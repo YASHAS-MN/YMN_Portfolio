@@ -221,7 +221,7 @@ export default function About() {
                 View Projects
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform duration-200" aria-hidden="true" />
               </a>
-              <a href="/resume.pdf" download className="about-action-btn about-action-btn-secondary" id="about-resume">
+              <a href="/resume.pdf" download="YashasMN_Resume.pdf" className="about-action-btn about-action-btn-secondary" id="about-resume">
                 <Download size={16} aria-hidden="true" />
                 Resume
               </a>

@@ -64,7 +64,7 @@ export default function Nav() {
           {/* Resume */}
           <a
             href="/resume.pdf"
-            download
+            download="YashasMN_Resume.pdf"
             className="flex items-center gap-2 px-4 py-2 rounded-lg border border-[#8b5cf6]/60 text-[#8b5cf6] font-mono text-xs uppercase tracking-wider hover:bg-[#8b5cf6]/10 hover:border-[#8b5cf6] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6]"
             aria-label="Download resume PDF"
           >
