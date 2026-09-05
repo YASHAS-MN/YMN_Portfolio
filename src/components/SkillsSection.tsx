@@ -41,11 +41,46 @@ const blurReveal = {
 export default function SkillsSection() {
   const [activeSkill, setActiveSkill] = useState<string | null>(null);
   const [connector, setConnector] = useState({ x1: 0, y1: 0, x2: 0, y2: 0 });
+  const [cardPosition, setCardPosition] = useState<{ left: number; top: number } | null>(null);
   const skillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
   const cardRef = useRef<HTMLDivElement | null>(null);
 
+  const handleSkillClick = (skill: string) => {
+    setCardPosition(null);
+    setActiveSkill(skill);
+  };
+
   useEffect(() => {
     if (!activeSkill) return;
+    const positionCard = () => {
+      const source = skillRefs.current[activeSkill];
+      const card = cardRef.current;
+      if (!source || !card) return;
+      const sourceRect = source.getBoundingClientRect();
+      const cardRect = card.getBoundingClientRect();
+      const gap = 14;
+      const preferredLeft = sourceRect.right + gap;
+      const left = preferredLeft + cardRect.width <= window.innerWidth - 16
+        ? preferredLeft
+        : Math.max(16, sourceRect.left - cardRect.width - gap);
+      const top = Math.max(16, Math.min(
+        sourceRect.top + sourceRect.height / 2 - cardRect.height / 2,
+        window.innerHeight - cardRect.height - 16,
+      ));
+      setCardPosition({ left, top });
+    };
+    const frame = requestAnimationFrame(positionCard);
+    window.addEventListener("resize", positionCard);
+    window.addEventListener("scroll", positionCard, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("resize", positionCard);
+      window.removeEventListener("scroll", positionCard);
+    };
+  }, [activeSkill]);
+
+  useEffect(() => {
+    if (!activeSkill || !cardPosition) return;
     const updateConnector = () => {
       const source = skillRefs.current[activeSkill];
       const card = cardRef.current;
@@ -61,14 +96,8 @@ export default function SkillsSection() {
       });
     };
     const frame = requestAnimationFrame(updateConnector);
-    window.addEventListener("resize", updateConnector);
-    window.addEventListener("scroll", updateConnector, { passive: true });
-    return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("resize", updateConnector);
-      window.removeEventListener("scroll", updateConnector);
-    };
-  }, [activeSkill]);
+    return () => cancelAnimationFrame(frame);
+  }, [activeSkill, cardPosition]);
 
   useEffect(() => {
     if (!activeSkill) return;
@@ -110,7 +139,7 @@ export default function SkillsSection() {
                     key={skill}
                     role="listitem"
                     ref={(element) => { skillRefs.current[skill] = element; }}
-                    onClick={() => setActiveSkill(skill)}
+                    onClick={() => handleSkillClick(skill)}
                     aria-label={`Show projects using ${skill}`}
                     style={{ fontFamily:BODY_FONT, fontSize:"16px", color:"#8f83a3" }}
                     className="skill-chip px-4 py-2.5 rounded-lg border border-[rgba(139,92,246,0.18)] bg-[rgba(5,5,8,0.85)] hover:border-[rgba(139,92,246,0.6)] hover:text-[#8b5cf6] hover:shadow-[0_0_16px_rgba(139,92,246,0.16)] transition-all duration-200 cursor-pointer select-none"
@@ -141,6 +170,7 @@ export default function SkillsSection() {
             <motion.div
               ref={cardRef}
               className="skill-detail-card card fixed z-50"
+              style={cardPosition ? { left: cardPosition.left, top: cardPosition.top } : { left: 16, top: 16, visibility: "hidden" }}
               initial={{ opacity: 0, scale: 0.96, y: 8 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.96, y: 8 }}
               role="dialog" aria-modal="true" aria-label={`${activeSkill} projects`}
             >
