@@ -43,6 +43,7 @@ function SkillDetailCard({ skill, onClose }: { skill: string; onClose: () => voi
     <div className="skill-detail-anchor">
       <motion.div
         className="skill-detail-card card"
+        onClick={(event) => event.stopPropagation()}
         initial={{ opacity: 0, scale: 0.96, y: 8 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 8 }}

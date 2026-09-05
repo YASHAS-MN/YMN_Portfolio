@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Copy, Check } from "lucide-react";
+import { Mail, Copy, Check, Code2 } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 
 const EMAIL = "yashasmn.cy23@rvce.edu.in";
@@ -126,12 +126,21 @@ export default function Footer() {
           >
             <GithubIcon size={15} /> github.com/YASHAS-MN
           </a>
+
+          <a
+            href="https://leetcode.com/u/Magellan_Ferdinand/"
+            target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-2 font-mono text-sm text-[#8f83a3] hover:text-[#8b5cf6] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b5cf6] rounded px-1"
+            id="contact-leetcode" aria-label="LeetCode profile"
+          >
+            <Code2 size={15} aria-hidden="true" /> leetcode.com/u/Magellan_Ferdinand
+          </a>
           </motion.div>
         </div>
 
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-8 border-t border-[rgba(139,92,246,0.08)]">
-          <span className="font-mono text-xs text-[#8f83a3]/40">&copy; 2024 Yashas M N. Built with Next.js</span>
+          <span className="font-mono text-xs text-[#8f83a3]/40">&copy; 2026 Yashas M N. Built with Next.js</span>
           <span className="font-mono text-xs text-[#8f83a3]/25">{"> "}exit 0</span>
         </div>
       </div>

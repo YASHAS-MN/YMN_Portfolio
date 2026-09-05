@@ -116,6 +116,7 @@ export function ExpandedCard({ project, onClose }: ExpandedCardProps) {
     <motion.div
       layoutId={`proj-${project.id}`}
       className="card relative w-full max-w-2xl"
+      onClick={(event) => event.stopPropagation()}
       style={{ cursor: "default", overflow: "hidden" }}
       transition={{ type: "spring", damping: 32, stiffness: 300 }}
     >

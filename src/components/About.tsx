@@ -419,6 +419,7 @@ export default function About() {
                 exit={{ opacity: 0, y: 18, scale: 0.97 }}
                 transition={{ duration: 0.22 }}
                 className={`card relative w-full max-w-3xl info-modal ${activeCard === "education" ? "info-modal--education" : ""}`}
+                onClick={(event) => event.stopPropagation()}
               >
                 <div className="flex items-center gap-3 mb-6 border-b border-[rgba(139,92,246,0.15)] pb-4">
                   <h3 className="info-modal-title">{infoCardTitles[activeCard]}</h3>
