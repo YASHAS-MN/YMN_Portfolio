@@ -178,6 +178,11 @@ p, li, a, td, th, label, input, textarea, select, button {
   text-justify: inter-word;
 }
 
+.info-modal {
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+}
+
 .info-card {
   cursor: pointer;
 }
@@ -374,4 +379,25 @@ p, li, a, td, th, label, input, textarea, select, button {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
   .card:hover { transform: none; }
+}
+
+/* Final desktop scale overrides. Keep these after the base component rules so
+   the compact layout wins the cascade on standard laptop viewports. */
+@media (max-width: 1680px) and (min-width: 769px) {
+  .site-container,
+  .projects-container {
+    max-width: 1200px;
+  }
+
+  .section-heading {
+    font-size: clamp(2.2rem, 4.2vw, 3rem);
+    margin-bottom: 40px;
+  }
+
+  .card { padding: 24px; }
+  .about-copy { font-size: 16px !important; }
+}
+
+@media (max-width: 768px) {
+  .info-modal { max-height: calc(100dvh - 32px); }
 }
