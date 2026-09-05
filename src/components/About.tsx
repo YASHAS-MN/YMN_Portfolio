@@ -1,9 +1,9 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Mail, ArrowRight, Download } from "lucide-react";
+import { Mail, ArrowRight, Download, X } from "lucide-react";
 import { GraduationCap, Award, Heart } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./BrandIcons";
 
@@ -17,6 +17,14 @@ const certifications = [
   "HackerRank - Software Engineering",
   "HackerRank - SQL Intermediate",
 ];
+
+type InfoCardId = "education" | "certifications" | "beyond-code";
+
+const infoCardTitles: Record<InfoCardId, string> = {
+  education: "Education details",
+  certifications: "Certifications details",
+  "beyond-code": "Beyond Code details",
+};
 
 const blurReveal = {
   hidden:  { opacity: 0, y: 24, filter: "blur(8px)" },
@@ -138,9 +146,96 @@ function PhotoWithHUD({ onHoverChange }: PhotoProps) {
   );
 }
 
+function EducationDetails() {
+  const semesters = [
+    ["I", "8.90", "8.90"],
+    ["II", "8.90", "8.90"],
+    ["III", "8.05", "8.61"],
+    ["IV", "8.74", "8.64"],
+    ["V", "8.40", "8.60"],
+    ["VI", "9.34", "8.74"],
+  ];
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h4 className="info-modal-subheading">Engineering Journey — RVCE</h4>
+        <p className="info-modal-muted">B.E. Computer Science &amp; Engineering (Cyber Security)</p>
+        <p className="info-modal-muted">R.V. College of Engineering, Bengaluru</p>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="info-modal-table">
+          <thead><tr><th>Semester</th><th>SGPA</th><th>CGPA</th></tr></thead>
+          <tbody>{semesters.map(([semester, sgpa, cgpa]) => <tr key={semester}><td>{semester}</td><td>{sgpa}</td><td>{cgpa}</td></tr>)}</tbody>
+        </table>
+      </div>
+
+      <div>
+        <h4 className="info-modal-subheading">Academic Progression</h4>
+        <ul className="info-modal-list">
+          <li><strong>Sem I–II:</strong> Mathematical, engineering &amp; foundational computing</li>
+          <li><strong>Sem III:</strong> Data Structures, Operating Systems, Computer Organisation &amp; Logic Design</li>
+          <li><strong>Sem IV:</strong> Discrete Mathematics, Computer Networks, Data Science &amp; Embedded Computing</li>
+          <li><strong>Sem V:</strong> Database Management, AI/ML, Theory of Computation, Vulnerability Assessment &amp; Penetration Testing</li>
+          <li><strong>Sem VI:</strong> Software Engineering, Applied Cryptography, Ethical Hacking, Blockchain, Intelligent Transport Systems &amp; Interdisciplinary Project</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function CertificationsDetails() {
+  return (
+    <div className="flex flex-col gap-6">
+      <div>
+        <h4 className="info-modal-subheading">HackerRank</h4>
+        <ul className="info-modal-list">
+          <li><strong>SQL (Intermediate)</strong> — HackerRank Skills Certification · Aug 2026</li>
+          <li><strong>Software Engineer</strong> — HackerRank Role Certification · Aug 2026</li>
+        </ul>
+        <p className="info-modal-muted mt-4">The SQL certification is a skill-based assessment, while Software Engineer is a role-based certification covering problem solving, SQL and REST APIs.</p>
+      </div>
+      <div>
+        <h4 className="info-modal-subheading">NPTEL</h4>
+        <ul className="info-modal-list">
+          <li><strong>Knowledge Management</strong> — 2025 · <strong>66/100 · Elite</strong></li>
+          <li><strong>Data Science for Engineers</strong> — 2025 · <strong>75/100 · Elite + Silver</strong></li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function BeyondCodeDetails() {
+  return (
+    <ul className="info-modal-list">
+      <li>I am a good artist.</li>
+      <li>I love music and play the flute.</li>
+      <li>I enjoy cinematic work and editing.</li>
+    </ul>
+  );
+}
+
+function InfoCardDetails({ cardId }: { cardId: InfoCardId }) {
+  if (cardId === "education") return <EducationDetails />;
+  if (cardId === "certifications") return <CertificationsDetails />;
+  return <BeyondCodeDetails />;
+}
+
 // --- Main About section -------------------------------------------------------
 export default function About() {
   const [photoHovered, setPhotoHovered] = useState(false);
+  const [activeCard, setActiveCard] = useState<InfoCardId | null>(null);
+
+  useEffect(() => {
+    if (!activeCard) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveCard(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeCard]);
 
   const go = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     e.preventDefault();
@@ -197,19 +292,19 @@ export default function About() {
             className="flex flex-col gap-7 max-w-[740px] min-w-0"
             style={{ transition:"filter 0.3s ease, opacity 0.3s ease", filter: photoHovered ? "blur(4px)" : "none", opacity: photoHovered ? 0.5 : 1 }}
           >
-            <p style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
+            <p className="about-copy" style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
               I am an engineering student pursuing my{" "}
               <span style={{ color:"#ede9f5" }}>B.E. in Computer Science and Engineering - Cyber Security</span>{" "}
               at <span style={{ color:"#8b5cf6" }}>R.V. College of Engineering, Bengaluru</span>.
               My interests are spread across{" "}
               <span style={{ color:"#ede9f5" }}>AI, machine learning, cyber security, software engineering, system design, databases, networks, and operating systems</span>.
             </p>
-            <p style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
+            <p className="about-copy" style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
               I have worked on projects that deepen my understanding of these disciplines and help me connect theory
               with real implementation. Each build has shaped how I think about designing, securing, scaling, and
               maintaining systems beyond the prototype stage.
             </p>
-            <p style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
+            <p className="about-copy" style={{ fontSize:"18px", lineHeight:1.7, color:"#8f83a3" }}>
               What keeps me coding late into the night is the drive to build something that actually matters. In a
               tech-centric world, I care about making information and data control more efficient, tackling existing
               hurdles with practical solutions, and choosing the right approach for the problem. More than just writing
@@ -246,7 +341,7 @@ export default function About() {
           style={{ transition:"filter 0.3s ease, opacity 0.3s ease", filter: photoHovered ? "blur(4px)" : "none", opacity: photoHovered ? 0.5 : 1 }}
         >
           {/* Education */}
-          <motion.div className="card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4 }}>
+          <motion.div className="card info-card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4 }} role="button" tabIndex={0} onClick={() => setActiveCard("education")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveCard("education"); } }} aria-label="Open education details">
             <span className="card-corner card-corner-bl" aria-hidden="true" />
             <span className="card-corner card-corner-br" aria-hidden="true" />
             <div className="flex items-center gap-3 mb-4">
@@ -259,10 +354,11 @@ export default function About() {
               <span className="font-mono" style={{ fontSize:"14px", color:"#8f83a3" }}>CGPA:</span>
               <span className="font-mono font-semibold" style={{ fontSize:"16px", color:"#8b5cf6" }}>8.74</span>
             </div>
+            <span className="info-card-hint">click to expand <span aria-hidden="true">›</span></span>
           </motion.div>
 
           {/* Certifications */}
-          <motion.div className="card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4, delay:0.08 }}>
+          <motion.div className="card info-card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4, delay:0.08 }} role="button" tabIndex={0} onClick={() => setActiveCard("certifications")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveCard("certifications"); } }} aria-label="Open certification details">
             <span className="card-corner card-corner-bl" aria-hidden="true" />
             <span className="card-corner card-corner-br" aria-hidden="true" />
             <div className="flex items-center gap-3 mb-4">
@@ -276,10 +372,11 @@ export default function About() {
                 </li>
               ))}
             </ul>
+            <span className="info-card-hint">click to expand <span aria-hidden="true">›</span></span>
           </motion.div>
 
           {/* Beyond code */}
-          <motion.div className="card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4, delay:0.16 }}>
+          <motion.div className="card info-card" initial="hidden" whileInView="visible" viewport={{ once:true }} variants={blurReveal} transition={{ duration:0.4, delay:0.16 }} role="button" tabIndex={0} onClick={() => setActiveCard("beyond-code")} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setActiveCard("beyond-code"); } }} aria-label="Open Beyond Code details">
             <span className="card-corner card-corner-bl" aria-hidden="true" />
             <span className="card-corner card-corner-br" aria-hidden="true" />
             <div className="flex items-center gap-3 mb-4">
@@ -296,9 +393,47 @@ export default function About() {
                 PR Head at Kannada CARV
               </li>
             </ul>
+            <span className="info-card-hint">click to expand <span aria-hidden="true">›</span></span>
           </motion.div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {activeCard && (
+          <>
+            <motion.div
+              key="about-card-scrim"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.22 }}
+              className="fixed inset-0 z-40"
+              style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)" }}
+              onClick={() => setActiveCard(null)}
+              aria-hidden="true"
+            />
+            <div className="fixed inset-0 z-50 flex items-center justify-center px-6 py-8 overflow-y-auto" role="dialog" aria-modal="true" aria-label={infoCardTitles[activeCard]}>
+              <motion.div
+                initial={{ opacity: 0, y: 18, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 18, scale: 0.97 }}
+                transition={{ duration: 0.22 }}
+                className="card relative w-full max-w-3xl info-modal"
+              >
+                <span className="card-corner card-corner-bl" aria-hidden="true" />
+                <span className="card-corner card-corner-br" aria-hidden="true" />
+                <div className="flex items-center gap-3 mb-6 border-b border-[rgba(139,92,246,0.15)] pb-4">
+                  <h3 className="info-modal-title">{infoCardTitles[activeCard]}</h3>
+                  <button onClick={() => setActiveCard(null)} className="ml-auto p-1.5 rounded text-[#8f83a3] hover:text-[#ede9f5] hover:bg-[rgba(139,92,246,0.15)] transition-all" aria-label="Close details">
+                    <X size={18} aria-hidden="true" />
+                  </button>
+                </div>
+                <InfoCardDetails cardId={activeCard} />
+              </motion.div>
+            </div>
+          </>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
