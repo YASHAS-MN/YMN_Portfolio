@@ -87,12 +87,12 @@ export default function SkillsSection() {
       if (!source || !card) return;
       const sourceRect = source.getBoundingClientRect();
       const cardRect = card.getBoundingClientRect();
-      const cardIsBelow = cardRect.top > sourceRect.bottom;
+      const cardIsRight = cardRect.left > sourceRect.right;
       setConnector({
-        x1: sourceRect.left + sourceRect.width / 2,
-        y1: cardIsBelow ? sourceRect.bottom : sourceRect.top,
-        x2: cardRect.left + cardRect.width / 2,
-        y2: cardIsBelow ? cardRect.top : cardRect.bottom,
+        x1: cardIsRight ? sourceRect.right : sourceRect.left,
+        y1: sourceRect.top + sourceRect.height / 2,
+        x2: cardIsRight ? cardRect.left : cardRect.right,
+        y2: cardRect.top + cardRect.height / 2,
       });
     };
     const frame = requestAnimationFrame(updateConnector);
@@ -162,8 +162,8 @@ export default function SkillsSection() {
               onClick={() => setActiveSkill(null)} aria-hidden="true"
             />
             <svg className="fixed inset-0 z-50 pointer-events-none skill-connector" aria-hidden="true">
-              <motion.line
-                x1={connector.x1} y1={connector.y1} x2={connector.x2} y2={connector.y2}
+              <motion.path
+                d={`M ${connector.x1} ${connector.y1} H ${(connector.x1 + connector.x2) / 2} V ${connector.y2} H ${connector.x2}`}
                 initial={{ pathLength: 0, opacity: 0 }} animate={{ pathLength: 1, opacity: 1 }} exit={{ opacity: 0 }}
               />
             </svg>

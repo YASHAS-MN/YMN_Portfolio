@@ -236,15 +236,16 @@ p, li, a, td, th, label, input, textarea, select, button {
 }
 
 .skill-scrim {
-  background: rgba(0, 0, 0, 0.28);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+  background: rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
 }
 
 .skill-connector { width: 100%; height: 100%; overflow: visible; }
-.skill-connector line {
+.skill-connector path {
   stroke: #a855f7;
   stroke-width: 1.5;
+  fill: none;
   stroke-dasharray: 5 5;
   filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.8));
 }
